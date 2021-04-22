@@ -1,0 +1,45 @@
+server {
+	listen 80;
+	listen [::]:80;
+
+	server_name amdedieu;
+
+	ssl off;
+
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html index.php;
+
+	location / {
+		autoindex on;
+		try_files $uri $uri/ =404;
+	}
+
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+	}
+}
+
+server{
+
+	listen 443 ssl ;
+	listen [::]:443 ssl ;
+
+	server_name amdedieu;
+
+	ssl_certificate /etc/nginx/ssl/amdedieu.pem;
+	ssl_certificate_key /etc/nginx/ssl/amdedieu.key;
+
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html index.php;
+
+	location / {
+		autoindex on;
+		try_files $uri $uri/ =404;
+	}
+
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+	}
+}
